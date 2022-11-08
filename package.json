@@ -1,5 +1,5 @@
 {
-  "name": "BaristMe_API",
+  "name": "CPHMTOGO_API",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BaristMe/BaristMe_API.git"
+    "url": "git+https://github.com/f2js/CPHMTOGO_API.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/BaristMe/BaristMe_API/issues"
+    "url": "https://github.com/f2js/CPHMTOGO_API/issues"
   },
-  "homepage": "https://github.com/BaristMe/BaristMe_API#readme",
+  "homepage": "https://github.com/f2js/CPHMTOGO_API#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
