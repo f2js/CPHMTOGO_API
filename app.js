@@ -20,13 +20,13 @@ const userRouter = require("./Routes/userRouter");
 const orderRouter = require("./Routes/orderRouter");
 const menuRouter = require("./Routes/menuRouter");
 const basketRouter = require("./Routes/basketRouter");
-const cafeRouter = require("./Routes/cafeRouter");
+const restaurantRouter = require("./Routes/restaurantRouter");
 
 app.use("/users", userRouter);
 app.use("/orders", orderRouter);
 app.use("/menu", menuRouter);
 app.use("/basket", basketRouter);
-app.use("/cafes", cafeRouter);
+app.use("/restaurants", restaurantRouter);
 
 app.all("*", (req, res, next) => {
   console.log("Cannot find the specified route: " + req.originalUrl);
