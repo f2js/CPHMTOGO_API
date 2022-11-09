@@ -3,6 +3,8 @@ const calcUtil = require("../Utils/calculatePrice");
 const { ObjectID } = require("mongodb");
 const AppError = require("../Utils/appError");
 
+//TODO CHANGE TO USE THE HBASE VERSION
+
 exports.getAllOrders = async (req, res) => {
   let db = await dbConnection.get();
   let orders = await db.collection("orders");
