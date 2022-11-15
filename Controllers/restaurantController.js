@@ -3,7 +3,7 @@ const { ObjectID } = require("mongodb");
 
 exports.getRestaurants = async (req, res) => {
   let db = await dbConnection.get();
-  let restaurantCollection = await db.collection("restaurant");
+  let restaurantCollection = await db.collection("cafes");
 
   restaurantCollection.find().toArray((err, restaurant) => {
     if (err) {

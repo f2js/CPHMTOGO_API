@@ -31,16 +31,16 @@ exports.addToBasket = async (req, res, next) => {
   let db = await dbConnection.get();
   let basketCollection = await db.collection("basket");
 
-  const { cafe, items, user } = req.body;
+  const { restaurant, items, user } = req.body;
 
-  if (!cafe || !items || !user) {
+  if (!restaurant || !items || !user) {
     return next(new AppError("ERROR ADDING TO BASKET.", 500));
   }
 
   const totalOrderPrice = calcUtil.calculateOrderPrice(items);
 
   const basket = {
-    cafe: cafe,
+    restaurant: restaurant,
     items: items,
     price: totalOrderPrice,
     user: user,
@@ -72,9 +72,11 @@ exports.basketToOrder = async (req, res) => {
   let basket = await basketCollection.findOne({
     "user.username": user.username,
   });
+
+  //TODO FIX WITH HBASE
   const totalOrderPrice = calcUtil.calculateOrderPrice(basket.basket.items);
   const order = {
-    cafe: basket.basket.cafe,
+    restaurant: basket.basket.restaurant,
     items: basket.basket.items,
     user: user,
     status: "Waiting",

@@ -1,26 +1,32 @@
 const dbConnection = require("../Services/DBConnection");
-const { ObjectID } = require("mongodb");
+const { ObjectId } = require("mongodb");
+const AppError = require("../Utils/appError");
 
-exports.getMenuFromCafe = async (req, res) => {
+exports.getMenuFromRestaurant = async (req, res, next) => {
   let db = await dbConnection.get();
-  let menuCollection = await db.collection("cafes");
+  let menuCollection = await db.collection("restaurant");
 
-  // TODO READ DOC AND FIX DEPRECATED & CONSIDER USING PARAMS
-  const cafeId = new ObjectID(req.body.id);
+  const restaurantId = ObjectId(req.body.id);
 
-  if (!cafeId) {
+  if (!restaurantId) {
     return next(new AppError("Missing input", 400));
   }
 
-  const query = { _id: cafeId };
+  // QUERY SKAL SE SÅDAN UD
+  // {_id: ObjectId('62c6d5a9a7ea328e08a7cb83')}
+  const query = { _id: restaurantId };
 
-  let cafe = await menuCollection.findOne(query);
-  if (!cafe) {
+  console.log("restaurant id: ", "ObjectId(" + restaurantId + ")");
+  console.log("Query: ", query);
+  console.log("Should be: {_id: ObjectId('63725bf9ec9245a5d8b7c58c')}");
+
+  let restaurant = await menuCollection.findOne(query);
+  if (!restaurant) {
     res.status(500).json({ message: "Error finding data" });
   } else {
     res.status(200).json({
-      cafe: cafe.cafe.name,
-      menu: cafe.cafe.menu,
+      restaurant: restaurant.restaurant.name,
+      menu: restaurant.restaurant.menu,
     });
   }
 };

@@ -18,17 +18,17 @@ exports.getAllOrders = async (req, res) => {
   });
 };
 
-exports.getAllCafeOrders = async (req, res) => {
+exports.getAllRestaurantOrders = async (req, res, next) => {
   let db = await dbConnection.get();
   let orders = await db.collection("orders");
 
-  const cafeName = req.body.cafeName;
+  const restaurantName = req.body.restaurantName;
 
-  if (!cafeName) {
+  if (!restaurantName) {
     return next(new AppError("Missing input", 400));
   }
 
-  const query = { "order.cafe": { $regex: cafeName } };
+  const query = { "order.restaurant": { $regex: restaurantName } };
 
   orders.find(query).toArray((err, items) => {
     if (err) {
@@ -44,9 +44,9 @@ exports.createOrder = async (req, res, next) => {
   let db = await dbConnection.get();
   let orders = await db.collection("orders");
 
-  const { cafe, items, user } = req.body;
+  const { restaurant, items, user } = req.body;
 
-  if (!cafe || !items || !user) {
+  if (!restaurant || !items || !user) {
     return next(new AppError("Fields missing in order.", 400));
   }
 
@@ -56,7 +56,7 @@ exports.createOrder = async (req, res, next) => {
   const paymentAccepted = true;
 
   const order = {
-    cafe: cafe,
+    restaurant: restaurant,
     items: items,
     user: user,
     status: "waiting",
@@ -112,14 +112,14 @@ exports.getPendingOrders = async (req, res, next) => {
   let db = await dbConnection.get();
   let orders = await db.collection("orders");
 
-  const { cafeName } = req.body;
+  const { restaurantName } = req.body;
 
-  if (!cafeName) {
+  if (!restaurantName) {
     return next(new AppError("Missing input", 400));
   }
 
   const query = {
-    "order.cafe": { $regex: cafeName },
+    "order.restaurant": { $regex: restaurantName },
     "order.status": "waiting",
   };
 
@@ -133,7 +133,7 @@ exports.getPendingOrders = async (req, res, next) => {
   });
 };
 
-exports.updateOrderStatus = async (req, res) => {
+exports.updateOrderStatus = async (req, res, next) => {
   let db = await dbConnection.get();
   let orders = await db.collection("orders");
   const { orderId, orderStatus, user } = req.body;
