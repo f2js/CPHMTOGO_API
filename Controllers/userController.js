@@ -1,32 +1,49 @@
 const dbConnection = require("../Services/DBConnection");
 const AppError = require("../Utils/appError");
+const bcrypt = require("bcrypt");
+
+const BCRYPT_ROUNDS = 12;
 
 exports.signUp = async (req, res, next) => {
   let db = await dbConnection.get();
   let users = await db.collection("users");
 
-  //TODO CREATE UTIL METHOD TO ENCRYPT PW
   const { name, lastname, username, email, password } = req.body;
 
   if (!name || !lastname || !username || !email || !password) {
-    return next(new AppError("Fields missing in signup.", 400));
+    return res.stats(400).json({ message: "Missing input" });
+  }
+
+  if (email && !email.includes("@")) {
+    return res.status(400).json({ message: "Invalid email" });
+  }
+
+  if (await users.findOne({ username: username })) {
+    return res.status(400).json({ message: "Username already exists" });
   }
 
   const user = {
-    user: {
-      name: name.trim(),
-      lastname: lastname.trim(),
-      username: username.trim(),
-      email: email.trim().toLowerCase(),
-      password: password,
-      role: "user",
-    },
+    name: name.trim(),
+    lastname: lastname.trim(),
+    username: username.trim(),
+    email: email.trim().toLowerCase(),
+    password: password,
+    role: "user",
   };
+
+  const salt = await bcrypt.genSalt(BCRYPT_ROUNDS);
+  const hashedPassword = await bcrypt.hash(user.password, salt);
+
+  const newUser = {
+    ...user,
+    password: hashedPassword,
+  };
+
   try {
-    await users.insertOne(user);
-    res.status(200).json({ message: "Success creating user", user: user });
+    const id = await users.insertOne(newUser);
+    res.status(201).json({ message: "User created", id: id.insertedId });
   } catch (e) {
-    return next(new AppError("Error creating user.", 400));
+    return next(new AppError("Error creating user.", 500));
   }
 };
 
@@ -34,23 +51,22 @@ exports.login = async (req, res, next) => {
   let db = await dbConnection.get();
   let users = await db.collection("users");
 
-  const { email, password } = req.body;
-  // CHECK IF INPUT IS EMPTY
-  if (!email || !password) {
-    return next(new AppError("Please provide email and password.", 400));
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: "Missing input" });
   }
 
-  //CHECK IF USER CREDENTIALS ARE CORRECT
-  const query = {
-    "user.email": email.trim().toLowerCase(),
-    "user.password": password.trim(),
-  };
-  const user = await users.findOne(query);
+  const user = await users.findOne({ username: username.toLowerCase() });
   if (!user) {
-    return next(new AppError("Invalid login credentials.", 404));
+    return res.status(400).json({ message: "User not found" });
   }
 
-  res.status(200).json({ user: user });
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(200).json({ message: "Login successful", user: user });
+  } else {
+    res.status(400).json({ message: "Wrong password" });
+  }
 };
 
 exports.getUser = async (userId) => {
@@ -63,7 +79,7 @@ exports.getUser = async (userId) => {
 
   return user;
 };
-//TODO make update statement
+//TODO make update statement for user to change role to
 exports.promoteUserToAdmin = async (userId) => {
   let db = await dbConnection.get();
   const user = await this.getUser(userId);
