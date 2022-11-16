@@ -12,13 +12,7 @@ exports.getMenuFromRestaurant = async (req, res, next) => {
     return next(new AppError("Missing input", 400));
   }
 
-  // QUERY SKAL SE SÅDAN UD
-  // {_id: ObjectId('62c6d5a9a7ea328e08a7cb83')}
   const query = { _id: restaurantId };
-
-  console.log("restaurant id: ", "ObjectId(" + restaurantId + ")");
-  console.log("Query: ", query);
-  console.log("Should be: {_id: ObjectId('63725bf9ec9245a5d8b7c58c')}");
 
   let restaurant = await menuCollection.findOne(query);
   if (!restaurant) {
