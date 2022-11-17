@@ -2,11 +2,23 @@ const app = require('../app')
 const supertest = require('supertest')
 const request = supertest(app)
 
+const {restaurant} = require("./utils/testObjects")
 const dbConnection = require("../Services/DBConnection")
+let db,dbCollection;
 
+
+beforeEach(async () => {
+    db = await dbConnection.get();
+    dbCollection = await db.collection("restaurant");
+    dbCollection.insertOne(restaurant)
+})
 
 beforeAll( async () => {
     await dbConnection.connect(()=>{});
+})
+
+afterEach(async () => {
+    await dbCollection.deleteOne({_id: restaurant._id })
 })
 
 afterAll(async() => {
@@ -25,6 +37,7 @@ describe("POST /menu", () => {
             .post("/menu")
             .send(body);
 
+        console.log(response.body)
         expect(response.statusCode).toBe(200);
     });
 });
