@@ -1,16 +1,26 @@
-const { MongoClient } = require("mongodb");
-const mongoose = require("mongoose")
-const {mongo} = require("mongoose")
 
-const connectionString = process.env.DB_URI;
+const mongoose = require("mongoose")
+const {MongoMemoryServer} = require("mongodb-memory-server")
+
+let connectionString = process.env.DB_URI;
 const dbName = process.env.DB_NAME;
 let mongoClient;
 
-function connect(){
-	mongoose.connect(connectionString, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	});
+async function connect(){
+	if (process.env.NODE_ENV === 'test') {
+		console.log("RUNNING TEST IN MEMORY DB")
+		mongoServer = await MongoMemoryServer.create();
+		connectionString =  await mongoServer.getUri();
+	}
+	try{
+		await mongoose.connect(connectionString, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		});
+	}catch(e) {
+		console.log("Error: ", e);
+		console.log("Error connecting to the database")
+	}
 }
 
 async function get(){

@@ -10,13 +10,12 @@ const port = process.env.API_PORT
 dbConnection.connect();
 
 if (process.env.NODE_ENV == 'development') {
-			app.listen(port, () => {
-				console.log(`App running locally without sslOptions on port ${port}`)
+	app.listen(port, () => {
+		console.log(`App running locally without sslOptions on port ${port}`)
 	})
 } else {
-
-		https.createServer(sslOptions, app).listen(port, () => {
-			console.log(`App running on port ${port}`)
-		})
+	https.createServer(sslOptions, app).listen(port, () => {
+		console.log(`App running on port ${port}`)
+	})
 
 }

@@ -2,20 +2,26 @@ const app = require('../app')
 const supertest = require('supertest')
 const request = supertest(app)
 
-const {restaurant} = require("./utils/testObjects")
+const {restaurant} = require("./testHelpers/testObjects")
 const dbConnection = require("../Services/DBConnection")
+const mongoose = require("mongoose")
+const {Schema} = require("mongoose")
+
+process.env.NODE_ENV = "test";
+
 let db,dbCollection;
 
+beforeAll( async () => {
+    await dbConnection.connect();
+})
 
 beforeEach(async () => {
     db = await dbConnection.get();
+
     dbCollection = await db.collection("restaurant");
     dbCollection.insertOne(restaurant)
 })
 
-beforeAll( async () => {
-    await dbConnection.connect(()=>{});
-})
 
 afterEach(async () => {
     await dbCollection.deleteOne({_id: restaurant._id })
@@ -35,10 +41,11 @@ describe("POST /menu", () => {
     test("should return 200", async () => {
         const response = await request
             .post("/menu")
-            .send(body);
+            .send(body)
 
-        console.log(response.body)
-        expect(response.statusCode).toBe(200);
+        expect(response.status).toBe(200)
+        expect(response._body.menu).toBeTruthy();
+
     });
 });
 
@@ -46,19 +53,3 @@ describe("POST /menu", () => {
 
 
 
-
-/*
-describe("Get menu", () => {
-    test("Successfully fetched menu", async () => {
-    //Arrange
-    const restaurantId = "62c54d09610402a01fd84fa3";
-    //Act
-    const response = await request
-      .post(`${baseUrl}/`)
-      .set("id", restaurantId);
-
-    //Assert
-    expect(response.status).toBe(200);
-  });
-});
-*/

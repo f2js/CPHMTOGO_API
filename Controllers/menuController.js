@@ -15,9 +15,6 @@ exports.getMenuFromRestaurant = async (req, res, next) => {
   const query = { _id: restaurantId };
   let restaurant = await menuCollection.findOne(query);
 
-  console.log("Restaurant id: ", restaurantId)
-  console.log("Query: ", query)
-  console.log("Restaurant: ", restaurant)
 
   if (!restaurant) {
     res.status(500).json({ message: "Error finding data" });
