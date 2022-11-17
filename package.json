@@ -38,8 +38,5 @@
     "nodemon": "^2.0.19",
     "prettier": "2.7.1",
     "supertest": "^6.3.1"
-  },
-  "jest": {
-    "preset": "@shelf/jest-mongodb"
   }
 }
