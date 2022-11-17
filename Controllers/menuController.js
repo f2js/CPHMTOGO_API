@@ -4,9 +4,11 @@ const AppError = require("../Utils/appError");
 
 exports.getMenuFromRestaurant = async (req, res, next) => {
   let db = await dbConnection.get();
+  console.log(db)
   let menuCollection = await db.collection("restaurant");
 
   const restaurantId = ObjectId(req.body.id);
+  console.log("Res id: ", restaurantId)
 
   if (!restaurantId) {
     return next(new AppError("Missing input", 400));
