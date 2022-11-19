@@ -31,20 +31,15 @@ afterAll(async() => {
     await dbConnection.close();
 })
 
-describe("POST /menu", () => {
-    const restaurantId = "62c54d09610402a01fd84fa3";
-
-    const body = {
-        id: restaurantId
-    }
+describe("GET /menu", () => {
+    const restaurantId = restaurant._id;
 
     test("should return 200", async () => {
         const response = await request
-            .post("/menu")
-            .send(body)
+            .get(`/menu/${restaurantId}`)
 
         expect(response.status).toBe(200)
-        expect(response._body.menu).toBeTruthy();
+        expect(response._body).toBeTruthy();
 
     });
 });
