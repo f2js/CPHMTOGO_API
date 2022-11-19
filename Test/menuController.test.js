@@ -32,21 +32,24 @@ afterAll(async() => {
 })
 
 describe("POST /menu", () => {
-    const restaurantId = "62c54d09610402a01fd84fa3";
+    const restaurantId = restaurant._id;
 
-    const body = {
-        id: restaurantId
-    }
-
-    test("should return 200", async () => {
+    test("Real restaurant id | Should return 200", async () => {
         const response = await request
-            .post("/menu")
-            .send(body)
-
+            .get(`/menu/${restaurantId}`)
         expect(response.status).toBe(200)
-        expect(response._body.menu).toBeTruthy();
+        expect(response._body).toBeTruthy();
 
     });
+
+    test("Wrong restaurant id | Should return 404", async () => {
+        let restaurantId = "62c54d09610402a01fd84fa8";
+        const response = await request
+            .get(`/menu/${restaurantId}`)
+        expect(response.status).toBe(404)
+        expect(response._body).toStrictEqual({});
+    });
+
 });
 
 
