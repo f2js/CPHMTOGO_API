@@ -11,6 +11,7 @@ const restaurant =  {
 			city: "Kongens Lyngby",
 			country: "Danmark"
 	},
+		tag: "Cafe",
 	menu: {
 		Burgers: [
 			{
@@ -44,6 +45,77 @@ const restaurant =  {
 	}
 }
 
+const basket =
+{
+	_id: ObjectId("637921cd0c151a0f481d5456"),
+	user: {
+		username: "freddy"
+},
+	basket: {
+	restaurant: "Cafe De Picasso",
+		items: [
+		{
+			item: "Coffee",
+			quantity: "2",
+			price: 29
+		},
+		{
+			item: "Is te",
+			quantity: "3",
+			price: 29
+		}
+	],
+		price: 145,
+		user: {
+		username: "freddy",
+			email: "freddy@freddy.com"
+	},
+	updated: {
+		"$date": {
+			"$numberLong": "1668882893153"
+		}
+	}
+}
+
+}
+
+const addToBasket = {
+	restaurant: "Cafe De Picasso",
+	items: [
+		{item: "Coffee", quantity: "2", price: 29 },
+		{item: "Is te", quantity: "3", price: 29 }
+	],
+	user: {
+		username: "freddy",
+		email: "freddy@freddy.com"
+	}
+}
+
+//Encrypted PW = $2b$12$MnzRVaWYqxHK6173LNNVNOmIGp5FKtYNV.FTfMfKsffGhHfx2.IOi
+const user1 = {
+	_id: ObjectId("63792d5816f351eb710ecd2c"),
+	firstname: "Frederik",
+	lastname: "Dahl",
+	username: "realslimfreddy",
+	email: "freddy@freddy.com",
+	password: "blablabla",
+	role: "user"
+}
+
+const user2 = {
+	_id: ObjectId("63792d5818f351eb710ecd2c"),
+	firstname: "Frederik",
+	lastname: "Dahl",
+	username: "realslimtestuser",
+	email: "freddy@freddy.com",
+	password: "blablabla",
+	role: "user"
+}
+
 module.exports = {
-	restaurant
+	restaurant,
+	basket,
+	addToBasket,
+	user1,
+	user2
 }

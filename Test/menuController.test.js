@@ -4,8 +4,6 @@ const request = supertest(app)
 
 const {restaurant} = require("./testHelpers/testObjects")
 const dbConnection = require("../Services/DBConnection")
-const mongoose = require("mongoose")
-const {Schema} = require("mongoose")
 
 process.env.NODE_ENV = "test";
 
@@ -19,7 +17,7 @@ beforeEach(async () => {
     db = await dbConnection.get();
 
     dbCollection = await db.collection("restaurant");
-    dbCollection.insertOne(restaurant)
+    await dbCollection.insertOne(restaurant)
 })
 
 
@@ -31,7 +29,7 @@ afterAll(async() => {
     await dbConnection.close();
 })
 
-describe("POST /menu", () => {
+describe("GET /menu", () => {
     const restaurantId = restaurant._id;
 
     test("Real restaurant id | Should return 200", async () => {
