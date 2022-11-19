@@ -1,0 +1,12 @@
+dist: bionic
+
+language: node_js
+node_js:
+  - 16.16.0
+
+
+jobs:
+  include:
+    - stage: test
+      name: 'Unit Tests'
+      script: 'npm run test'
