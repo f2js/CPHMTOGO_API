@@ -40,7 +40,8 @@ describe("GET /menu", () => {
 
     });
 
-    test("Wrong restaurant id | Should return 404", async () => {
+
+    test("Fake restaurant id | Should return 404", async () => {
         let restaurantId = "62c54d09610402a01fd84fa8";
         const response = await request
             .get(`/menu/${restaurantId}`)
