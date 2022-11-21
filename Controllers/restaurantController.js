@@ -35,7 +35,6 @@ exports.getRestaurantByTag = async (req, res) => {
   let db = await dbConnection.get();
   let restaurantCollection = await db.collection("restaurant");
 
-  console.log(req.params.tag);
   restaurantCollection
     .find({ tags: { $in: [req.params.tag] } })
     .toArray((err, restaurant) => {

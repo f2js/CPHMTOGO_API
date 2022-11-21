@@ -13,15 +13,18 @@ exports.signUp = async (req, res, next) => {
   const { firstname, lastname, username, email, password } = req.body;
 
   if (!firstname || !lastname || !username || !email || !password) {
-    return res.stats(400).json({ message: "Missing input" });
+    res.stats(400).json({ message: "Missing input" });
+    return;
   }
 
   if (email && !email.includes("@")) {
-    return res.status(400).json({ message: "Invalid email" });
+    res.status(400).json({ message: "Invalid email" });
+    return;
   }
 
   if (await users.findOne({ username: username })) {
-    return res.status(400).json({ message: "Username already exists" });
+    res.status(400).json({ message: "Username already exists" });
+    return;
   }
 
   const user = {

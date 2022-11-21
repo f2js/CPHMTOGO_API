@@ -4,8 +4,6 @@ const request = supertest(app)
 
 const {restaurant} = require("./testHelpers/testObjects")
 const dbConnection = require("../Services/DBConnection")
-const mongoose = require("mongoose")
-const {Schema} = require("mongoose")
 
 process.env.NODE_ENV = "test";
 
@@ -19,7 +17,7 @@ beforeEach(async () => {
     db = await dbConnection.get();
 
     dbCollection = await db.collection("restaurant");
-    dbCollection.insertOne(restaurant)
+    await dbCollection.insertOne(restaurant)
 })
 
 
@@ -34,14 +32,23 @@ afterAll(async() => {
 describe("GET /menu", () => {
     const restaurantId = restaurant._id;
 
-    test("should return 200", async () => {
+    test("Real restaurant id | Should return 200", async () => {
         const response = await request
             .get(`/menu/${restaurantId}`)
-
         expect(response.status).toBe(200)
         expect(response._body).toBeTruthy();
 
     });
+
+
+    test("Fake restaurant id | Should return 404", async () => {
+        let restaurantId = "62c54d09610402a01fd84fa8";
+        const response = await request
+            .get(`/menu/${restaurantId}`)
+        expect(response.status).toBe(404)
+        expect(response._body).toStrictEqual({});
+    });
+
 });
 
 

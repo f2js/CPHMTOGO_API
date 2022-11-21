@@ -17,7 +17,6 @@ exports.getBasket = async (req, res, next) => {
   const query = { "basket.user.username": username };
 
   let basket = await basketCollection.findOne(query);
-  console.log("basket: ", basket);
   if (!basket) {
     res.status(500).json({ message: "Error finding data" });
   } else {
