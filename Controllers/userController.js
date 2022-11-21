@@ -10,9 +10,9 @@ exports.signUp = async (req, res, next) => {
   let db = await dbConnection.get();
   let users = await db.collection("users");
 
-  const { firstname, lastname, username, email, password } = req.body;
+  const { name, username, email, password } = req.body;
 
-  if (!firstname || !lastname || !username || !email || !password) {
+  if (!name || !username || !email || !password) {
     res.stats(400).json({ message: "Missing input" });
     return;
   }
@@ -28,8 +28,7 @@ exports.signUp = async (req, res, next) => {
   }
 
   const user = {
-    firstname: firstname.trim(),
-    lastname: lastname.trim(),
+    name: name.toLowerCase(),
     username: username.trim(),
     email: email.trim().toLowerCase(),
     password: password,
@@ -72,8 +71,7 @@ exports.login = async (req, res, next) => {
       _id: user._id,
       username: user.username,
       email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      name: user.name,
       role: user.role,
     },
     process.env.TOKEN_SECRET
