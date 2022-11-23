@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: cphmtogo-api
-      image: f2js/cphmtogo_api
+      image: f2js/cphmtogo_api:latest
       ports:
         - containerPort: 8080
