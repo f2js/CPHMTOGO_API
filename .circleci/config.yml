@@ -11,7 +11,7 @@ jobs:
     docker:
       - image: circleci/buildpack-deps:bullseye
     environment:
-      IMAGE_NAME: f2js/CPHMTOGO_API
+      IMAGE_NAME: f2js/cphmtogo_api
     working_directory: ~/app
     steps:
       - checkout
