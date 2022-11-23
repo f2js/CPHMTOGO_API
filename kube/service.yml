@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: load-balancer-service
+  name: load-balancer-cphmtogo
   namespace: default
   labels:
     app: web
