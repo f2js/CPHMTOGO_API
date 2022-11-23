@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ci-cd-cphmtogo_api
+  labels:
+    app: web
+spec:
+  containers:
+    - name: cphmtogo_api
+      image: f2js/cphmtogo_api
+      ports:
+        - containerPort: 8080
