@@ -8,7 +8,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - nodePort: 30165 # - a static port assigned on each the node
+    - nodePort: 30166 # - a static port assigned on each the node
       port: 8080 # - port exposed internally in the cluster
       targetPort: 8080 # - the container port to send requests to
   selector:
