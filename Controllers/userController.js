@@ -13,7 +13,7 @@ exports.signUp = async (req, res, next) => {
   const { name, username, email, password } = req.body;
 
   if (!name || !username || !email || !password) {
-    res.stats(400).json({ message: "Missing input" });
+    res.status(400).json({ message: "Missing input" });
     return;
   }
 
