@@ -6,7 +6,7 @@ const restaurant = {
     name: "Marios Pizza",
     location: {
       street: "Lyngby Hovedgade 37",
-      postalcode: "2800",
+      postalcode: 2800,
       city: "Kongens Lyngby",
       country: "Danmark",
     },
@@ -15,29 +15,29 @@ const restaurant = {
       Burgers: [
         {
           name: "Hamburger",
-          price: "15",
+          price: 15,
         },
         {
           name: "Cheeseburger",
-          price: "18",
+          price: 18,
         },
         {
           name: "Chicken burger",
-          price: "25",
+          price: 25,
         },
       ],
       Pizzas: [
         {
           name: "Pepperoni",
-          price: "55",
+          price: 55,
         },
         {
           name: "Salad kebab",
-          price: "65",
+          price: 65,
         },
         {
           name: "Hawaii",
-          price: "50",
+          price: 50,
         },
       ],
     },
@@ -54,12 +54,12 @@ const basket = {
     items: [
       {
         item: "Coffee",
-        quantity: "2",
+        quantity: 2,
         price: 29,
       },
       {
         item: "Is te",
-        quantity: "3",
+        quantity: 3,
         price: 29,
       },
     ],
@@ -79,8 +79,8 @@ const basket = {
 const addToBasket = {
   restaurant: "Cafe De Picasso",
   items: [
-    { item: "Coffee", quantity: "2", price: 29 },
-    { item: "Is te", quantity: "3", price: 29 },
+    { item: "Coffee", quantity: 2, price: 29 },
+    { item: "Is te", quantity: 3, price: 29 },
   ],
   user: {
     username: "freddy",

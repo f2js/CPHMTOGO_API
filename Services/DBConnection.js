@@ -8,7 +8,6 @@ let mongoClient;
 
 async function connect(){
 	if (process.env.NODE_ENV === 'test') {
-		console.log("RUNNING TEST IN MEMORY DB")
 		mongoServer = await MongoMemoryServer.create();
 		connectionString =  await mongoServer.getUri();
 	}
