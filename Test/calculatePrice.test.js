@@ -6,7 +6,6 @@ describe("UNIT | CalculatePrice ", () => {
 
 	test("Calculate price| Input items", async () => {
 		let items = basket.basket.items
-		console.log(items)
 		const expectedResult = 145;
 		const actualResult = calculateOrderPrice(items)
 
