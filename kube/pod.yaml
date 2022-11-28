@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: cphmtogo-api
   labels:
-    app: web
+    app.kubernetes.io/name: cphmtogo-api
 spec:
   containers:
     - name: cphmtogo-api
