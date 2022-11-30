@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: load-balancer-cphmtogo
+  name: cphmtogo-service
   namespace: default
   labels:
     app: web
@@ -12,4 +12,4 @@ spec:
       port: 8080 # - port exposed internally in the cluster
       targetPort: 8080 # - the container port to send requests to
   selector:
-    app.kubernetes.io/name: cphmtogo-api
+    app.kubernetes.io/name: cphmtogo

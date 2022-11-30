@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cphmtogo-api
+  name: cphmtogo
   labels:
-    app.kubernetes.io/name: cphmtogo-api
+    app.kubernetes.io/name: cphmtogo
 spec:
   containers:
-    - name: cphmtogo-api
-      image: f2js/cphmtogo_api:latest
+    - name: cphmtogo
+      image: f2js/cphmtogo:latest
       ports:
         - containerPort: 8080
