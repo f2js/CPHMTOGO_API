@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/f2js/CPHMTOGO_API#readme",
   "dependencies": {
+    "@grpc/grpc-js": "^1.7.3",
+    "@grpc/proto-loader": "^0.7.3",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",

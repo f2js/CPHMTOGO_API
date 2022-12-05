@@ -1,0 +1,16 @@
+syntax = "proto3";
+package grpc;
+
+message PaymentRequest {
+  int32 orderId = 1;
+  double orderPrice = 2;
+}
+
+message APIResponse{
+  string responsemessage = 1;
+  int32  responseCode  = 2;
+}
+
+service PaymentService {
+  rpc payment(PaymentRequest) returns (APIResponse);
+}
