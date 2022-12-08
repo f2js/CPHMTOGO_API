@@ -1,18 +1,16 @@
-const dbConnection = require("../Services/DBConnection");
-const {ObjectID} = require("mongodb");
-const AppError = require("../Utils/appError");
+
 const axios = require("axios")
+const {makePayment} = require("./paymentController")
 
-
-const url = "http://206.189.240.165:8080/";
+const url = process.env.orderServiceUrl
 
 exports.createOrder = async (req, res, next) => {
 
 	const {c_id, r_id, cust_addr, rest_addr, orderlines} = req.body
 
 	if (!c_id || !r_id || !cust_addr || !rest_addr || !orderlines) {
-		//TODO NOT APP ERROR
-		return next(new AppError("Fields missing in order.", 400));
+		console.log("No input")
+		return next();
 	}
 
 	const order = {
@@ -23,19 +21,23 @@ exports.createOrder = async (req, res, next) => {
 		orderlines,
 	};
 
-	//TODO ADD PAYMENT
-	const paymentAccepted = true
+	const customerRestaurantId = c_id + r_id
 
-	if (paymentAccepted) {
-	  try {
-	     const response = await axios.post(url + "create", order)
-	    res.status(200).json({ message: "Success creating order", order: response });
-	  } catch (e) {
-	    console.error("Error: ", e);
-	  }
+	const orderPrice = orderlines.reduce((total, item) => total + item.price, 0)
+	const paymentStatus = await makePayment(customerRestaurantId, orderPrice)
+
+	if (paymentStatus.responseCode === 200) {
+		try {
+			const response = await axios.post(url + "create", order)
+			res.status(200).json({message: "Success creating order", order: JSON.parse(response.data)});
+		} catch (e) {
+			console.error("Error: ", e);
+			res.status(500).json({message: "Failure creating order"});
+		}
 	} else {
-	  res.status(404).json({ message: "Payment error" });
+		res.status(400).json({message: "Payment failure"});
 	}
+
 };
 
 
