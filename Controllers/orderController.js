@@ -1,161 +1,43 @@
 const dbConnection = require("../Services/DBConnection");
-const calcUtil = require("../Utils/calculatePrice");
-const { ObjectID } = require("mongodb");
+const {ObjectID} = require("mongodb");
 const AppError = require("../Utils/appError");
+const axios = require("axios")
 
-//TODO CHANGE TO USE THE HBASE VERSION
 
-exports.getAllOrders = async (req, res) => {
-  let db = await dbConnection.get();
-  let orders = await db.collection("orders");
-  orders.find().toArray((err, items) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ err: err });
-      return;
-    }
-    res.status(200).json({ orders: items });
-  });
-};
-
-exports.getAllRestaurantOrders = async (req, res, next) => {
-  let db = await dbConnection.get();
-  let orders = await db.collection("orders");
-
-  const restaurantName = req.body.restaurantName;
-
-  if (!restaurantName) {
-    return next(new AppError("Missing input", 400));
-  }
-
-  const query = { "order.restaurant": { $regex: restaurantName } };
-
-  orders.find(query).toArray((err, items) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ err: err });
-      return;
-    }
-    res.status(200).json({ orders: items });
-  });
-};
+const url = "http://206.189.240.165:8080/";
 
 exports.createOrder = async (req, res, next) => {
-  let db = await dbConnection.get();
-  let orders = await db.collection("orders");
 
-  const { restaurant, items, user } = req.body;
+	const {c_id, r_id, cust_addr, rest_addr, orderlines} = req.body
 
-  if (!restaurant || !items || !user) {
-    return next(new AppError("Fields missing in order.", 400));
-  }
+	if (!c_id || !r_id || !cust_addr || !rest_addr || !orderlines) {
+		//TODO NOT APP ERROR
+		return next(new AppError("Fields missing in order.", 400));
+	}
 
-  const totalOrderPrice = calcUtil.calculateOrderPrice(items);
+	const order = {
+		c_id,
+		r_id,
+		cust_addr,
+		rest_addr,
+		orderlines,
+	};
 
-  //TODO PAYMENT SHOULD BE DONE HERE
-  const paymentAccepted = true;
+	//TODO ADD PAYMENT
+	const paymentAccepted = true
 
-  const order = {
-    restaurant: restaurant,
-    items: items,
-    user: user,
-    status: "waiting",
-    created: new Date(),
-    updated: new Date(),
-    price: totalOrderPrice,
-    paymentStatus: "Payment accepted",
-  };
-
-  if (paymentAccepted) {
-    try {
-      await orders.insertOne(order);
-      res.status(200).json({ message: "Success creating order", order: order });
-    } catch (e) {
-      console.error("Error: ", e);
-    }
-  } else {
-    res.status(404).json({ message: "Payment error" });
-  }
+	if (paymentAccepted) {
+	  try {
+	     const response = await axios.post(url + "create", order)
+	    res.status(200).json({ message: "Success creating order", order: response });
+	  } catch (e) {
+	    console.error("Error: ", e);
+	  }
+	} else {
+	  res.status(404).json({ message: "Payment error" });
+	}
 };
 
-exports.getUserOrders = async (req, res, next) => {
-  let db = await dbConnection.get();
-  let orders = await db.collection("orders");
 
-  // TODO MAKE IT REFER TO THE USER THAT IS LOGGED IN
-  const { username, status } = req.body;
-  if (!username) {
-    return next(new AppError("Missing input", 400));
-  }
 
-  let query = "";
-  if (status) {
-    query = {
-      "user.username": username.toLowerCase(),
-      status: status,
-    };
-  } else {
-    query = { "user.username": username };
-  }
 
-  orders.find(query).toArray((err, orders) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ err: err });
-      return;
-    }
-    res.status(200).json({ orders: orders });
-  });
-};
-
-exports.getPendingOrders = async (req, res, next) => {
-  let db = await dbConnection.get();
-  let orders = await db.collection("orders");
-
-  const { restaurantName } = req.body;
-
-  if (!restaurantName) {
-    return next(new AppError("Missing input", 400));
-  }
-
-  const query = {
-    "order.restaurant": { $regex: restaurantName },
-    "order.status": "waiting",
-  };
-
-  orders.find(query).toArray((err, items) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ err: err });
-      return;
-    }
-    res.status(200).json({ orders: items });
-  });
-};
-
-exports.updateOrderStatus = async (req, res, next) => {
-  let db = await dbConnection.get();
-  let orders = await db.collection("orders");
-  const { orderId, orderStatus, user } = req.body;
-  //TODO MAKE IT USE THE USER FROM LOCAL STORAGE
-  console.log(orderId, orderStatus, user);
-
-  if (!user.role === "admin") {
-    return next(new AppError("You don't have clearance to do this", 404));
-  }
-
-  if (!orderId || !orderStatus) {
-    return next(new AppError("Missing inputs", 400));
-  }
-
-  try {
-    await orders.updateOne(
-      { _id: new ObjectID(orderId) },
-      { $set: { "order.status": orderStatus, "order.updated": new Date() } }
-    );
-    res.status(200).json({ message: "Success updating order" });
-  } catch (e) {
-    console.error("Error: ", e);
-    res.status(500).json({ message: "Failed to update ordert" });
-  }
-};
