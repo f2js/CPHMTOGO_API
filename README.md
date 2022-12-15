@@ -1,12 +1,11 @@
 # CPHMTOGO API DOCUMENTATION
 
 ### Group members: 
-Click for a link to their github: 
 
-[@josefmarcc ](https://github.com/josefmarcc) cph-jp325@cphbusiness.dk  
-[@fdinsen](https://github.com/fdinsen) cph-fd77@cphbusiness.dk  
-[@sebastianbentley ](https://github.com/SebastianBentley) cph-sb287@cphbusiness.dk  
-[@dahlfrederik ](https://github.com/dahlfrederik) cph-fd76@cphbusiness.dk  
+**Name** Josef Marc Pedersen **Github** [@josefmarcc ](https://github.com/josefmarcc) **Email** cph-jp325@cphbusiness.dk  
+**Name** Frederik Dinsen **Github**[@fdinsen](https://github.com/fdinsen) **Email** cph-fd77@cphbusiness.dk  
+**Name** Sebastian Bentley **Github** [@sebastianbentley ](https://github.com/SebastianBentley) **Email** cph-sb287@cphbusiness.dk  
+**Name** Frederik Dahl **Github** [@dahlfrederik ](https://github.com/dahlfrederik) **Email** cph-fd76@cphbusiness.dk  
 
 ## Info
 This repository functions as the backend server for the based on a monolithic architecture. 
