@@ -1,5 +1,17 @@
 # CPHMTOGO API DOCUMENTATION
 
+### Group members: 
+<a href = "https://github.com/f2js/CPHMTOGO_API/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=f2js/CPHMTOGO_API"/>
+</a>
+
+Click for a link to their github: 
+
+[@josefmarcc ](https://github.com/josefmarcc)
+[@fdinsen](https://github.com/fdinsen)
+[@sebastianbentley ](https://github.com/SebastianBentley)
+[@dahlfrederik ](https://github.com/dahlfrederik)
+
 ## Info
 This repository functions as the backend server for the based on a monolithic architecture. 
 This is the starting point of the application (our "legacy code") and we will integrate different services to this base application to make if follow a loosely coupled service oriented architecture. 
