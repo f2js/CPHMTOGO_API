@@ -3,10 +3,10 @@
 ### Group members: 
 Click for a link to their github: 
 
-[@josefmarcc ](https://github.com/josefmarcc) cph-jp325@cphbusiness.dk
-[@fdinsen](https://github.com/fdinsen) cph-fd77@cphbusiness.dk
-[@sebastianbentley ](https://github.com/SebastianBentley) cph-sb287@cphbusiness.dk
-[@dahlfrederik ](https://github.com/dahlfrederik) cph-fd76@cphbusiness.dk
+[@josefmarcc ](https://github.com/josefmarcc) cph-jp325@cphbusiness.dk  
+[@fdinsen](https://github.com/fdinsen) cph-fd77@cphbusiness.dk  
+[@sebastianbentley ](https://github.com/SebastianBentley) cph-sb287@cphbusiness.dk  
+[@dahlfrederik ](https://github.com/dahlfrederik) cph-fd76@cphbusiness.dk  
 
 ## Info
 This repository functions as the backend server for the based on a monolithic architecture. 
