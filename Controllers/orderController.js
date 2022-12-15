@@ -6,9 +6,9 @@ const url = process.env.orderServiceUrl
 
 exports.createOrder = async (req, res, next) => {
 
-	const {c_id, r_id, cust_addr, rest_addr, orderlines} = req.body
+	const {c_id, r_id, cust_addr, rest_addr, orderlines, postal_code} = req.body
 
-	if (!c_id || !r_id || !cust_addr || !rest_addr || !orderlines) {
+	if (!c_id || !r_id || !cust_addr || !rest_addr || !orderlines || !postal_code) {
 		console.log("No input")
 		return next();
 	}
@@ -19,6 +19,7 @@ exports.createOrder = async (req, res, next) => {
 		cust_addr,
 		rest_addr,
 		orderlines,
+		postal_code
 	};
 
 	const customerRestaurantId = c_id + r_id
@@ -29,7 +30,8 @@ exports.createOrder = async (req, res, next) => {
 	if (paymentStatus.responseCode === 200) {
 		try {
 			const response = await axios.post(url + "create", order)
-			res.status(200).json({message: "Success creating order", order: JSON.parse(response.data)});
+			console.log("create order response: ", response)
+			res.status(200).json({message: "Success creating order", order: response.data});
 		} catch (e) {
 			console.error("Error: ", e);
 			res.status(500).json({message: "Failure creating order"});
