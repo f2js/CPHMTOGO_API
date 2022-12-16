@@ -1,5 +1,6 @@
 # CPHMTOGO API
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/f2js/CPHMTOGO_API/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/f2js/CPHMTOGO_API/tree/main)
+[![CircleCI](https://dl.circleci.com/insights-snapshot/gh/f2js/CPHMTOGO_API/main/build-deploy-master/badge.svg?window=30d)](https://app.circleci.com/insights/github/f2js/CPHMTOGO_API/workflows/build-deploy-master/overview?branch=main&reporting-window=last-30-days&insights-snapshot=true)
 
 
 ### Group members: 
