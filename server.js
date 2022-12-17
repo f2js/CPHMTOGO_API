@@ -1,5 +1,5 @@
 // Set .env file as the very first thing
-require('dotenv').config({ path: './config.env' })
+
 const dbConnection = require('./Services/DBConnection')
 
 const app = require('./app')

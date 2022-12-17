@@ -5,8 +5,6 @@ const xss = require("xss-clean");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-require("dotenv").config({ path: "./config.env" });
-
 const app = express();
 app.enable("trust proxy");
 
